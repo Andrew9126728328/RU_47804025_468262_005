@@ -16,6 +16,9 @@
 !.git
 !Readme.md
 
+# Include workbench pin project
+!RU_New_AT32F415CBT7.ATWP
+
 # Include build files
 !*.hex
 !*.srec
