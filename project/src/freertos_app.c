@@ -139,7 +139,7 @@ void wk_freertos_init(void)
 void daemon_task_func(void *pvParameters)
 {
   /* add user code begin daemon_task_func 0 */
-	appl_start();
+	appl.start();
   /* add user code end daemon_task_func 0 */
 
   /* Infinite loop */
@@ -147,7 +147,7 @@ void daemon_task_func(void *pvParameters)
   {
   /* add user code begin daemon_task_func 1 */
 
-  appl_daemon();
+  appl.daemon();
   /* add user code end daemon_task_func 1 */
   }
 }

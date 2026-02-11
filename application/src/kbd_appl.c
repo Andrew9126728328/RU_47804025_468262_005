@@ -45,9 +45,6 @@ enum
     BUTTON_TOTAL
 };
 
-TaskHandle_t keyboard_task_handle = NULL;
-static TaskHandle_t keyboard_task_tx_engine_handle = NULL;
-
 static size_t row,column;
 static uint8_t scan_code[COL_TOTAL];
 static uint8_t debounce_code[COL_TOTAL];
@@ -72,7 +69,7 @@ void keyboard_task_func(void *pvParameters)
 			debounce_code[column] = 0;
 	}
 	xSemaphoreEvent = xSemaphoreCreateBinary();
-	xTaskCreate(keyboard_task_tx_engine, "keyboard_tx_engine",  128*2,  (void*)5, 1,  &keyboard_task_tx_engine_handle);
+	xTaskCreate(keyboard_task_tx_engine, "keyboard_tx_engine",  configMINIMAL_STACK_SIZE*2,  (void*)5, tskIDLE_PRIORITY + 1,  NULL);
 	for(;;)
 	{
 			for(column = 0;column < COL_TOTAL;++column)                     

@@ -10,8 +10,6 @@
 #include "main_appl.h"
 #include "bsp.h"
 
-TaskHandle_t hv_motor_task_handle = NULL;
-
 /**
 * @brief Задача управления тактильно/вибрационным мотором
 * @param[in] pvParameters принимает значение времени сканирования ряда в мс 

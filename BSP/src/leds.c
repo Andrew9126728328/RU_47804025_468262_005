@@ -22,7 +22,6 @@ enum
 #define LED_PER_REG (LED_TOTAL/TOTAL_74HCT595)
 
 static uint8_t led_screen[TOTAL_74HCT595];
-static TaskHandle_t leds_to_74HCT595_task_handle = NULL;
 static void leds_to_74HCT595_task_func(void *pvParameters);
 static void leds_init(void);
 static int  leds_turn(int led, int color, int bright);
@@ -39,7 +38,7 @@ static void leds_init(void)
 	gpio_bits_reset(SR_MR_GPIO_PORT, SR_MR_PIN);
 	vTaskDelay(pdMS_TO_TICKS(2));
 	gpio_bits_set(SR_MR_GPIO_PORT, SR_MR_PIN);
-	xTaskCreate(leds_to_74HCT595_task_func, "leds_task",  128,  (void*)10, 4,  &leds_to_74HCT595_task_handle);
+	xTaskCreate(leds_to_74HCT595_task_func, "leds_task",  configMINIMAL_STACK_SIZE,  (void*)10, tskIDLE_PRIORITY + 4,  NULL);
 }
 
 static int  leds_turn(int led, int color, int bright)

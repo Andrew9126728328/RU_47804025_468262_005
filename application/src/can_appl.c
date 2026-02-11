@@ -9,11 +9,16 @@
 #include "main_appl.h"
 #include "bsp.h"
 
+
+static int appl_can_send(can_message_t *message);
+const appl_can_t appl_can =
+{
+	.j1939_my_address = J1939_ADDRESS,
+	.send = appl_can_send,
+};
+
 #define txQueueLength 				(64U)
 #define rxQueueLength 				(64U)
-
-TaskHandle_t can_rx_task_handle = NULL;
-TaskHandle_t can_tx_task_handle = NULL;
 
 QueueHandle_t txQueue = NULL;		///< Очередь (буфферизация) на передачу CAN сообщений
 QueueHandle_t rxQueue = NULL;		///< Очередь (буфферизация) на прием CAN сообщений
@@ -42,7 +47,6 @@ void can_rx_task_func(void *pvParameters)
 		 {
 			 health.can_rx_status = pdFALSE;
 		 }
-
   }	
 }
 /**
@@ -55,6 +59,7 @@ void can_tx_task_func(void *pvParameters)
 	can_message_t message = {0};
 	//vTaskDelay(pdMS_TO_TICKS(300U));
 	txQueue = xQueueCreate(txQueueLength, sizeof(can_message_t));
+	failure_pgn_65408.init();
 	for(;;)
 	{
 			/* Wait tx message */
@@ -101,4 +106,15 @@ static int can_is_xcp_connect(can_message_t *message)
         }
     }
     return ret;
+}
+static int appl_can_send(can_message_t *message)
+{
+	extern QueueHandle_t txQueue;
+	int ret = pdFALSE;
+	if(NULL != txQueue)
+	{
+		/* Send to Queue */
+		ret = xQueueSend(txQueue, (void*)message,0);
+	}
+	return ret;
 }

@@ -3,6 +3,7 @@
 #include "can.h"
 #include "kbd.h"
 #include "leds.h"
+#include "adc.h"
 #include "drv_2605.h"
 
 /*******************************************************************************/ 

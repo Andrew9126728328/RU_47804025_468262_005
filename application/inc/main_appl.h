@@ -1,6 +1,11 @@
 #ifndef __MAIN_APPL_H__
 #define __MAIN_APPL_H__
 
+#include "bsp.h"
+#include "can_appl.h"
+#include "ai_appl.h"
+#include "failure_pgn_65408.h"
+
 #define STATISTIC_PERIOD			(100U)
 #define J1939_ADDRESS					(207U)
 #define J1939_BROADCAST				(255U)
@@ -19,7 +24,14 @@ typedef struct health_s
 }health_t;
 extern health_t health;
 
-extern void appl_start(void);
-extern void appl_daemon(void);
+typedef struct api_s
+{
+	void (*start)(void);
+	void (*daemon)(void);
+	const appl_can_t *can;
+	const appl_ai_t *ai;
+}api_t;
+extern const api_t appl;
+
 
 #endif /* __MAIN_APPL_H__ */
