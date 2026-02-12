@@ -2,6 +2,7 @@
 #define __FAILURE_PGN_65408_H__
 
 #include <stdint.h>
+#include "can.h"
 
 enum 
 {
@@ -44,6 +45,7 @@ typedef struct failure_pgn_65408_s
         int (*init)(void);   
         int (*set)(int spn,int fmi);
         int (*reset)(int spn);
+				int (*is_request)(can_message_t *msg, uint8_t my_address);
         int (*send_answer)(void);  
 }failure_pgn_65408_t;
 

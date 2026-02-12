@@ -35,58 +35,58 @@ void ai_measurement(void *pvParameters)
 	const float alpha = 0.975f;
 	for(;;)
 	{ 
-			adc.start();
-			vTaskDelay(pdMS_TO_TICKS(10U));
-			//Adc::raw = adc_ordinary_conversion_data_get(ADC1); 
-			ai_vref = adc_raw[AI_VREF] * adc.v_ref / adc.resolution;
-			{
-					float tmp_in,tmp_out;
-					/* Obtain the temperature using the following formula:
-							Temperature (in В°C) = {(V25 - VTS) / Avg_Slope} + 25.
-					*/
-					tmp_in = adc_raw[AI_TSENS] * (adc.v_ref_int / ai_vref) * adc.v_ref / adc.resolution;
-					tmp_in = (1.32f - tmp_in) / (-4.34e-3)+ 25.0f;
-					tmp_out = ai_temperature;
-					/* READ!!! http://we.easyelectronics.ru/Theory/chestno-prostoy-cifrovoy-filtr.html */
-					tmp_out = alpha * tmp_out + (1.0f - alpha) * tmp_in;    /* Canonical way EMA */ 
-					ai_temperature = tmp_out;
-			}
-			{
-					float tmp_in,tmp_out;
-					tmp_in = adc_raw[AI_PWRvs] * adc.scaler * (adc.v_ref_int / ai_vref) + adc.offset;
-					tmp_out = ai_v24;
-					/* READ!!! http://we.easyelectronics.ru/Theory/chestno-prostoy-cifrovoy-filtr.html */
-					tmp_out = alpha * tmp_out + (1.0f - alpha) * tmp_in;    /* Canonical way EMA */ 
-					ai_v24 = tmp_out;
-			}
+		adc.start();
+		vTaskDelay(pdMS_TO_TICKS(10U));
+		//Adc::raw = adc_ordinary_conversion_data_get(ADC1); 
+		ai_vref = adc_raw[AI_VREF] * adc.v_ref / adc.resolution;
+		{
+			float tmp_in,tmp_out;
+			/* Obtain the temperature using the following formula:
+					Temperature (in В°C) = {(V25 - VTS) / Avg_Slope} + 25.
+			*/
+			tmp_in = adc_raw[AI_TSENS] * (adc.v_ref_int / ai_vref) * adc.v_ref / adc.resolution;
+			tmp_in = (1.32f - tmp_in) / (-4.34e-3)+ 25.0f;
+			tmp_out = ai_temperature;
+			/* READ!!! http://we.easyelectronics.ru/Theory/chestno-prostoy-cifrovoy-filtr.html */
+			tmp_out = alpha * tmp_out + (1.0f - alpha) * tmp_in;    /* Canonical way EMA */ 
+			ai_temperature = tmp_out;
+		}
+		{
+			float tmp_in,tmp_out;
+			tmp_in = adc_raw[AI_PWRvs] * adc.scaler * (adc.v_ref_int / ai_vref) + adc.offset;
+			tmp_out = ai_v24;
+			/* READ!!! http://we.easyelectronics.ru/Theory/chestno-prostoy-cifrovoy-filtr.html */
+			tmp_out = alpha * tmp_out + (1.0f - alpha) * tmp_in;    /* Canonical way EMA */ 
+			ai_v24 = tmp_out;
+		}
 
-			if(ai_v24 > adc.overvoltage)
-			{
-					failure_pgn_65408.set(SPN_X3597,FMI_X3);
-			}else if(ai_v24 < adc.undervoltage)
-			{
-					failure_pgn_65408.set(SPN_X3597,FMI_X4);
-			}else
-			{
-					failure_pgn_65408.reset(SPN_X3597);
-			}
-			{
-					float tmp_in,tmp_out;
-					tmp_in = adc.v_ref * (adc.v_ref_int / ai_vref);
-					tmp_out = ai_v3v3;
-					/* READ!!! http://we.easyelectronics.ru/Theory/chestno-prostoy-cifrovoy-filtr.html */
-					tmp_out = alpha * tmp_out + (1.0f - alpha) * tmp_in;    /* Canonical way EMA */ 
-					ai_v3v3 = tmp_out;
-			}
-			if(ai_v3v3 > (adc.v_ref*1.1f))
-			{
-					failure_pgn_65408.set(SPN_X3599,FMI_X3);
-			}else if(ai_v3v3 < (adc.v_ref*0.9f))
-			{
-					failure_pgn_65408.set(SPN_X3599,FMI_X4);
-			}else
-			{
-					failure_pgn_65408.reset(SPN_X3599);
-			}
+		if(ai_v24 > adc.overvoltage)
+		{
+			appl.can->failure_pgn_65408->set(SPN_X3597,FMI_X3);
+		}else if(ai_v24 < adc.undervoltage)
+		{
+			appl.can->failure_pgn_65408->set(SPN_X3597,FMI_X4);
+		}else
+		{
+			appl.can->failure_pgn_65408->reset(SPN_X3597);
+		}
+		{
+			float tmp_in,tmp_out;
+			tmp_in = adc.v_ref * (adc.v_ref_int / ai_vref);
+			tmp_out = ai_v3v3;
+			/* READ!!! http://we.easyelectronics.ru/Theory/chestno-prostoy-cifrovoy-filtr.html */
+			tmp_out = alpha * tmp_out + (1.0f - alpha) * tmp_in;    /* Canonical way EMA */ 
+			ai_v3v3 = tmp_out;
+		}
+		if(ai_v3v3 > (adc.v_ref*1.1f))
+		{
+			appl.can->failure_pgn_65408->set(SPN_X3599,FMI_X3);
+		}else if(ai_v3v3 < (adc.v_ref*0.9f))
+		{
+			appl.can->failure_pgn_65408->set(SPN_X3599,FMI_X4);
+		}else
+		{
+			appl.can->failure_pgn_65408->reset(SPN_X3599);
+		}
 	}	
 }

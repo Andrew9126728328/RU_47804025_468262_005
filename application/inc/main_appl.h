@@ -2,14 +2,13 @@
 #define __MAIN_APPL_H__
 
 #include "bsp.h"
+#include "signature.h"
 #include "can_appl.h"
 #include "ai_appl.h"
-#include "failure_pgn_65408.h"
 
 #define STATISTIC_PERIOD			(100U)
 #define J1939_ADDRESS					(207U)
 #define J1939_BROADCAST				(255U)
-#define J1939_REQ_PGN_0xEA00	(0xEA00)
 #define XCP_MASTER_ID 				(0x02770801U) 
 
 typedef struct health_s

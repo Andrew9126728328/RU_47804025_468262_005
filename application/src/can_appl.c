@@ -8,6 +8,8 @@
 #include "freertos_app.h"
 #include "main_appl.h"
 #include "bsp.h"
+#include <string.h>
+#include <stdio.h>
 
 
 static int appl_can_send(can_message_t *message);
@@ -15,6 +17,8 @@ const appl_can_t appl_can =
 {
 	.j1939_my_address = J1939_ADDRESS,
 	.send = appl_can_send,
+	.j1939 =  &j1939,
+	.failure_pgn_65408 = &failure_pgn_65408,
 };
 
 #define txQueueLength 				(64U)
@@ -78,10 +82,24 @@ void can_tx_task_func(void *pvParameters)
 */ 
 static void can_rx_process(can_message_t *message)
 {
-	if(message->ext)                             /* Extended ID only */
+	if(pdTRUE == message->ext)                             /* Extended ID only */
 	{
+		if(pdTRUE == appl_can.failure_pgn_65408->is_request(message, appl_can.j1939_my_address))
+		{
+				appl_can.failure_pgn_65408->send_answer();
+		}
+		else if(pdTRUE == appl_can.j1939->is_request_sw(message, appl_can.j1939_my_address))
+		{
+				char str[64];
+				if(sizeof(str) >= (sizeof(PROJECT) + sizeof(VERSION)))
+				{
+						sprintf(str,"%s*%s*",PROJECT,VERSION);
+						int len = strlen(str);
+						appl_can.j1939->send_sw(J1939_PRIORITY_6, appl_can.j1939_my_address, 2, str, len);
+				}
+		}
 		/* Processing the reset command to the Bootloader */
-		if(pdTRUE == can_is_xcp_connect(message))
+		else if(pdTRUE == can_is_xcp_connect(message))
 		{
 				vTaskSuspendAll();
 				while(1)                        /* WDT Reset to Bootloader */

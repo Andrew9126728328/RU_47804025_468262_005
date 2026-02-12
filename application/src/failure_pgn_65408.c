@@ -3,18 +3,20 @@
 #include "main_appl.h"
 #include "bsp.h"
 
-static int init(void);
-static int set(int spn,int fmi);
-static int reset(int spn);
-static int send_answer(void);
+static int failure_init(void);
+static int failure_set(int spn,int fmi);
+static int failure_reset(int spn);
+static int failure_send_answer(void);
+static int failure_is_request(can_message_t *msg, uint8_t my_address);
 
 const failure_pgn_65408_t failure_pgn_65408 = 
 {
 	.pgn = 65408U,
-	.init = init,
-	.set = set,
-	.reset = reset,
-	.send_answer = send_answer,
+	.init = failure_init,
+	.set = failure_set,
+	.reset = failure_reset,
+	.send_answer = failure_send_answer,
+	.is_request = failure_is_request,
 };
 
 /*
@@ -50,13 +52,13 @@ static struct spn_state_s failure[SPN_TOTAL] =
 static const uint8_t priority = 6U;
 static int build_can_message(size_t ndx, can_message_t *message);
 
-static int init(void)
+static int failure_init(void)
 {
     int ret = pdFALSE;
     ret = failure_pgn_65408.reset(SPN_X0152);     /* Send Board Reset SPN */
     return ret;
 }     
-static int set(int spn,int fmi)
+static int failure_set(int spn,int fmi)
 {
 	int ret = pdFALSE;
 	for (size_t ndx=0;ndx<SPN_TOTAL;++ndx)          /* Find among all SPNs */
@@ -77,7 +79,7 @@ static int set(int spn,int fmi)
 	}
 	return ret;
 }     
-static int reset(int spn)
+static int failure_reset(int spn)
 {
 	int ret = pdFALSE;
 
@@ -98,7 +100,7 @@ static int reset(int spn)
 	}
 	return ret;
 }     
-static int send_answer(void)
+static int failure_send_answer(void)
 {
 	int ret = pdFALSE;
 	for (size_t ndx=0;ndx<SPN_TOTAL;++ndx)              /* Find among all SPNs */
@@ -142,4 +144,19 @@ static int build_can_message(size_t ndx,can_message_t *message)
         ret = pdTRUE;
     }
     return ret;
-}   
+} 
+
+static int failure_is_request(can_message_t *message, uint8_t self_address)
+{
+	int ret = pdFALSE;
+	if(pdTRUE == j1939.is_request(message,self_address))
+	{
+		/* PGN 59904 Failure request processing */
+		uint32_t req_pgn = message->data[0] | (message->data[1]<<8) | (message->data[2]<<16);
+		if(req_pgn == failure_pgn_65408.pgn)
+		{
+				ret = pdTRUE;
+		}
+	}
+	return ret;
+}

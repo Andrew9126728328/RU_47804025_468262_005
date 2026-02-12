@@ -109,8 +109,8 @@ void keyboard_task_func(void *pvParameters)
 */ 
 void keyboard_task_tx_engine(void *pvParameters)
 {
-	uint8_t repeat_time = 100U;
-	uint8_t guard_time = 20U;
+	const uint32_t repeat_time = 100U;
+	const uint32_t guard_time = 20U;
 	extern QueueHandle_t txQueue;
 	for(;;)
 	{
@@ -118,11 +118,7 @@ void keyboard_task_tx_engine(void *pvParameters)
 			vTaskDelay(pdMS_TO_TICKS(guard_time));
 			xSemaphoreTake(xSemaphoreEvent,pdMS_TO_TICKS(repeat_time-guard_time));
 			keyboard_status2message(&message);
-			/* Send to CAN Queue */
-			if(NULL != txQueue)
-			{
-				xQueueSend(txQueue, (void*)&message,(TickType_t)0U);
-			}
+			appl.can->send(&message);
 	}
 }
 /**
@@ -131,10 +127,10 @@ void keyboard_task_tx_engine(void *pvParameters)
 */ 
 static void keyboard_status2message(can_message_t *message)
 {
-    uint8_t priority = 3U;
-    uint8_t pdu_format = 255U;
-    uint8_t pdu_specific = 64U;
-    uint8_t dlc = 8U;
+    const uint8_t priority = 3U;
+    const uint8_t pdu_format = 255U;
+    const uint8_t pdu_specific = 64U;
+    const uint8_t dlc = 8U;
     struct kbd2message_s
     {
         uint8_t col_weak;
@@ -155,7 +151,7 @@ static void keyboard_status2message(can_message_t *message)
     memset(message,0,sizeof(can_message_t));
     message->ext = pdTRUE;
     message->length = dlc;
-    message->id = (priority<<26) | (pdu_format<<16) | (pdu_specific<<8) | J1939_ADDRESS;
+    message->id = (priority<<26) | (pdu_format<<16) | (pdu_specific<<8) | appl.can->j1939_my_address;
     for(size_t button=0;button<BUTTON_TOTAL;++button)
     {
         uint8_t value = 0x00;;
