@@ -8,6 +8,12 @@
 */
 #include "can.h"
 
+#include "FreeRTOS.h"
+#include "task.h"
+#include "semphr.h"
+#include "queue.h"
+#include "timers.h"
+
 static int can_send(can_message_t *message);
 static int can_receive(can_rx_fifo_num_type fifo_number, can_message_t *message);
 

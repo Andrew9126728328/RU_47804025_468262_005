@@ -27,6 +27,8 @@ typedef struct api_s
 {
 	void (*start)(void);
 	void (*daemon)(void);
+	void (*idle)(void);
+	void (*tick)(void);
 	const appl_can_t *can;
 	const appl_ai_t *ai;
 }api_t;

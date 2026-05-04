@@ -118,11 +118,10 @@ void wk_can1_init(void)
    */
 
   /*can1 rx1 interrupt config--------------------------------------------------------*/ 
-  can_interrupt_enable(CAN1, CAN_RF0MIEN_INT, TRUE);
-  can_interrupt_enable(CAN1, CAN_RF1MIEN_INT, TRUE);
+  //can_interrupt_enable(CAN1, CAN_RF1MIEN_INT, TRUE);
 
   /*can1 se interrupt config---------------------------------------------------------*/ 
-  can_interrupt_enable(CAN1, CAN_ETRIEN_INT, TRUE);
+  //can_interrupt_enable(CAN1, CAN_ETRIEN_INT, TRUE);
   //can_interrupt_enable(CAN1, CAN_EOIEN_INT, TRUE);
 
   /* add user code begin can1_init 2 */

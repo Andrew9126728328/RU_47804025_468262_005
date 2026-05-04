@@ -3,13 +3,7 @@
 
 #include <stdint.h>
 
-#include "at32f415.h" 
-
-#include "FreeRTOS.h"
-#include "task.h"
-#include "semphr.h"
-#include "queue.h"
-#include "timers.h" 
+#include "at32f415.h"  
 
 enum
 {
@@ -33,6 +27,10 @@ enum
 	LED_18,
 	LED_19,
 	LED_20,
+	LED_21,
+	LED_22,
+	LED_23,
+	LED_24,
 	LED_TOTAL,
 };
 enum

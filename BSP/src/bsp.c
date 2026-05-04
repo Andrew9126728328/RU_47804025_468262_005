@@ -8,6 +8,12 @@
 */
 #include "bsp.h"
 
+#include "FreeRTOS.h"
+#include "task.h"
+#include "semphr.h"
+#include "queue.h"
+#include "timers.h"
+
 static int bsp_init(void);
 
 const bsp_t bsp = 
@@ -27,7 +33,9 @@ static int bsp_init(void)
 {
     int ret = pdTRUE;
     pwc_pvm_level_select(PWC_PVM_VOLTAGE_2V9);
-		bsp.leds->init();
-		bsp.drv_2605->init();
+		if(bsp.leds->init) 
+			bsp.leds->init();
+		if(bsp.drv_2605->init) 
+			bsp.drv_2605->init();
     return ret;
-}           
+}          

@@ -53,17 +53,17 @@ void wk_usart1_init(void)
   gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_MODERATE;
   gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
   gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
-  gpio_init_struct.gpio_pins = GPIO_PINS_9;
+  gpio_init_struct.gpio_pins = M_TX_D_PIN;
   gpio_init_struct.gpio_pull = GPIO_PULL_NONE;
-  gpio_init(GPIOA, &gpio_init_struct);
+  gpio_init(M_TX_D_GPIO_PORT, &gpio_init_struct);
 
   /* configure the RX pin */
   gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_MODERATE;
   gpio_init_struct.gpio_out_type  = GPIO_OUTPUT_PUSH_PULL;
   gpio_init_struct.gpio_mode = GPIO_MODE_INPUT;
-  gpio_init_struct.gpio_pins = GPIO_PINS_10;
+  gpio_init_struct.gpio_pins = M_RX_D_PIN;
   gpio_init_struct.gpio_pull = GPIO_PULL_NONE;
-  gpio_init(GPIOA, &gpio_init_struct);
+  gpio_init(M_RX_D_GPIO_PORT, &gpio_init_struct);
 
   /* configure param */
   usart_init(USART1, 115200, USART_DATA_8BITS, USART_STOP_1_BIT);

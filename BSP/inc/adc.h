@@ -6,12 +6,6 @@
 
 #include "at32f415.h" 
 
-#include "FreeRTOS.h"
-#include "task.h"
-#include "semphr.h"
-#include "queue.h"
-#include "timers.h"
-
 /*******************************************************************************/ 
 /**
 * @brief Объект adc для работы с ADC BSP

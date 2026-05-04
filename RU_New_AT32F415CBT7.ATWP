@@ -60,18 +60,6 @@
             <ParametersSub name="GeneralCallMode" value="FALSE"/>
         </Parameters>
     </I2C2>
-    <SPI2>
-        <Mode>
-            <ModeSub name="Mode" value="TX_Only_Simplex_Unidirect_Master"/>
-        </Mode>
-        <Parameters>
-            <ParametersSub name="TransmissionMode" value="SPI_TRANSMIT_FULL_DUPLEX"/>
-            <ParametersSub name="Mode" value="SPI_MODE_MASTER"/>
-            <ParametersSub name="FirstBit" value="SPI_FIRST_BIT_MSB"/>
-            <ParametersSub name="ClkDivision" value="SPI_MCLK_DIV_16"/>
-            <ParametersSub name="ClockFrequency" value="4500000"/>
-        </Parameters>
-    </SPI2>
     <SYSTEM>
         <Mode>
             <ModeSub name="Time_Base" value="SysTick"/>
@@ -152,12 +140,17 @@
         <TMR3_GLOBAL_IRQHandler>1;5;0;1;0</TMR3_GLOBAL_IRQHandler>
         <I2C2_EVT_IRQHandler>0;5;0;1;0</I2C2_EVT_IRQHandler>
         <I2C2_ERR_IRQHandler>0;5;0;1;0</I2C2_ERR_IRQHandler>
-        <SPI2_IRQHandler>0;5;0;1;0</SPI2_IRQHandler>
         <USART1_IRQHandler>1;5;0;1;0</USART1_IRQHandler>
     </NVIC>
     <GPIO>
         <Signal SignalName="GPIO_Output" PinName="PC13">
             <Parameters name="Label" value="COL_3"/>
+        </Signal>
+        <Signal SignalName="CRM_HEXT_IN" PinName="PD0/HEXT_IN">
+            <Parameters name="Label" value="HEXT_IN"/>
+        </Signal>
+        <Signal SignalName="CRM_HEXT_OUT" PinName="PD1/HEXT_OUT">
+            <Parameters name="Label" value="HEXT_OUT"/>
         </Signal>
         <Signal SignalName="ADC1_IN0" PinName="PA0/WKUP">
             <Parameters name="Label" value="PWRvs"/>
@@ -177,23 +170,53 @@
         <Signal SignalName="GPIO_Output" PinName="PA5">
             <Parameters name="Label" value="COL_4"/>
         </Signal>
+        <Signal SignalName="TMR3_CH1" PinName="PA6">
+            <Parameters name="Label" value="ENC_A"/>
+        </Signal>
+        <Signal SignalName="TMR3_CH2" PinName="PA7">
+            <Parameters name="Label" value="ENC_B"/>
+        </Signal>
         <Signal SignalName="GPIO_Output" PinName="PB1">
             <Parameters name="Label" value="VIBR_EN"/>
         </Signal>
         <Signal SignalName="GPIO_Output" PinName="PB2/BOOT1">
             <Parameters name="Label" value="COL_1"/>
         </Signal>
+        <Signal SignalName="I2C2_SCL" PinName="PB10">
+            <Parameters name="Label" value="VIBR_SCL"/>
+        </Signal>
+        <Signal SignalName="I2C2_SDA" PinName="PB11">
+            <Parameters name="Label" value="VIBR_SDA"/>
+        </Signal>
+        <Signal SignalName="GPIO_Input" PinName="PB12">
+            <Parameters name="Label" value="PB_12"/>
+        </Signal>
         <Signal SignalName="GPIO_Output" PinName="PB14">
             <Parameters name="Label" value="VIBR_IN"/>
+        </Signal>
+        <Signal SignalName="USART1_TX" PinName="PA9">
+            <Parameters name="Label" value="M_TX_D"/>
+        </Signal>
+        <Signal SignalName="USART1_RX" PinName="PA10">
+            <Parameters name="Label" value="M_RX_D"/>
         </Signal>
         <Signal SignalName="GPIO_Output" PinName="PA11">
             <Parameters name="Label" value="COL_6"/>
         </Signal>
-        <Signal SignalName="GPIO_Output" PinName="PF6">
-            <Parameters name="Label" value="SR_MR"/>
+        <Signal SignalName="DEBUG_JTMS_SWDIO" PinName="PA13">
+            <Parameters name="Label" value="M_SWDIO"/>
         </Signal>
-        <Signal SignalName="GPIO_Output" PinName="PF7">
-            <Parameters name="Label" value="SR_ST"/>
+        <Signal SignalName="DEBUG_JTCK_SWCLK" PinName="PA14">
+            <Parameters name="Label" value="M_SWCLK"/>
+        </Signal>
+        <Signal SignalName="DEBUG_JTDI" PinName="PA15">
+            <Parameters name="Label" value="PA_15"/>
+        </Signal>
+        <Signal SignalName="DEBUG_JTDO" PinName="PB3">
+            <Parameters name="Label" value="M_SWO"/>
+        </Signal>
+        <Signal SignalName="DEBUG_NJTRST" PinName="PB4">
+            <Parameters name="Label" value="PB_4"/>
         </Signal>
         <Signal SignalName="GPIO_Input" PinName="PB5">
             <Parameters name="Label" value="ROW_2"/>
@@ -242,15 +265,12 @@
         <PinSub pinname="PB2/BOOT1" signalname="GPIO_Output" signaltype="3"/>
         <PinSub pinname="PB10" signalname="I2C2_SCL" signaltype="2"/>
         <PinSub pinname="PB11" signalname="I2C2_SDA" signaltype="2"/>
-        <PinSub pinname="PB13" signalname="SPI2_SCK" signaltype="2"/>
+        <PinSub pinname="PB12" signalname="GPIO_Input" signaltype="3"/>
         <PinSub pinname="PB14" signalname="GPIO_Output" signaltype="3"/>
-        <PinSub pinname="PB15" signalname="SPI2_MOSI" signaltype="2"/>
         <PinSub pinname="PA9" signalname="USART1_TX" signaltype="2"/>
         <PinSub pinname="PA10" signalname="USART1_RX" signaltype="2"/>
         <PinSub pinname="PA11" signalname="GPIO_Output" signaltype="3"/>
         <PinSub pinname="PA13" signalname="DEBUG_JTMS_SWDIO" signaltype="2"/>
-        <PinSub pinname="PF6" signalname="GPIO_Output" signaltype="3"/>
-        <PinSub pinname="PF7" signalname="GPIO_Output" signaltype="3"/>
         <PinSub pinname="PA14" signalname="DEBUG_JTCK_SWCLK" signaltype="2"/>
         <PinSub pinname="PA15" signalname="DEBUG_JTDI" signaltype="2"/>
         <PinSub pinname="PB3" signalname="DEBUG_JTDO" signaltype="2"/>
@@ -263,7 +283,7 @@
     </PINInfo>
     <ProjectInfomation>
         <ProjectName>RU_New_AT32F415CBT7</ProjectName>
-        <ProjectLocation>C:/Users/andrew/work/RSM/embedded/RU-new</ProjectLocation>
+        <ProjectLocation>C:/Users/andrew/work/RSM/embedded/47804025.468262.005_rev.1</ProjectLocation>
         <ToolchainIDE>MDK_V5</ToolchainIDE>
         <ARMCompiler>1</ARMCompiler>
         <KeepUserCode>true</KeepUserCode>

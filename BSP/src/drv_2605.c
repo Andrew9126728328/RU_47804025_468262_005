@@ -10,6 +10,12 @@
 #include "at32f415_wk_config.h"
 #include "i2c_application.h"
 
+#include "FreeRTOS.h"
+#include "task.h"
+#include "semphr.h"
+#include "queue.h"
+#include "timers.h"
+
 #define DRV2605_I2C								I2C2
 /**************************************************************************/ 
 #define DRV2605_ADDR							0x5A	///< Device I2C address

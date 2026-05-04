@@ -9,6 +9,12 @@
 #include "kbd.h"
 #include "at32f415_wk_config.h"
 
+#include "FreeRTOS.h"
+#include "task.h"
+#include "semphr.h"
+#include "queue.h"
+#include "timers.h"
+
 /* PORT/PIN для строк клавиатуры */
 struct row_ctrl_s
 {

@@ -29,7 +29,6 @@
 #include "wk_adc.h"
 #include "wk_can.h"
 #include "wk_i2c.h"
-#include "wk_spi.h"
 #include "wk_tmr.h"
 #include "wk_usart.h"
 #include "wk_wdt.h"
@@ -111,9 +110,6 @@ int main(void)
 
   /* init usart1 function. */
   wk_usart1_init();
-
-  /* init spi2 function. */
-  wk_spi2_init();
 
   /* init i2c2 function. */
   wk_i2c2_init();

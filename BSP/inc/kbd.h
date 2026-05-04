@@ -2,15 +2,9 @@
 #define __KBD_H__
 
 #include <stdint.h>
+#include <stddef.h>
 
 #include "at32f415.h" 
-
-#include "FreeRTOS.h"
-#include "task.h"
-#include "semphr.h"
-#include "queue.h"
-#include "timers.h"
-
 
 /***************************************************************************************
  * X macros for creating a list of KEY controls

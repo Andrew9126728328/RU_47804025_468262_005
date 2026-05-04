@@ -17,6 +17,12 @@ static void adc_start(void);
 static void adc_calibrate(void);
 
 #include "adc.h"
+
+#include "FreeRTOS.h"
+#include "task.h"
+#include "semphr.h"
+#include "queue.h"
+#include "timers.h"
 /*******************************************************************************/
 /**
 * @brief Экземпляр объекта управления ADC1 AT32F415

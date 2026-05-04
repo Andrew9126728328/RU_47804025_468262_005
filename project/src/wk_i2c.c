@@ -55,16 +55,16 @@ void wk_i2c2_init(void)
   gpio_init_struct.gpio_pull = GPIO_PULL_NONE;
   gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
   gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_MODERATE;
-  gpio_init_struct.gpio_pins = GPIO_PINS_10;
-  gpio_init(GPIOB, &gpio_init_struct);
+  gpio_init_struct.gpio_pins = VIBR_SCL_PIN;
+  gpio_init(VIBR_SCL_GPIO_PORT, &gpio_init_struct);
 
   /* configure the SDA pin */
   gpio_init_struct.gpio_out_type = GPIO_OUTPUT_OPEN_DRAIN;
   gpio_init_struct.gpio_pull = GPIO_PULL_NONE;
   gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
   gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_MODERATE;
-  gpio_init_struct.gpio_pins = GPIO_PINS_11;
-  gpio_init(GPIOB, &gpio_init_struct);
+  gpio_init_struct.gpio_pins = VIBR_SDA_PIN;
+  gpio_init(VIBR_SDA_GPIO_PORT, &gpio_init_struct);
 
   i2c_init(I2C2, I2C_FSMODE_DUTY_2_1, 100000);
   i2c_own_address1_set(I2C2, I2C_ADDRESS_MODE_7BIT, 0x0);
