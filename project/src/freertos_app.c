@@ -48,36 +48,34 @@
 /* task handler */
 TaskHandle_t daemon_task_handle;
 
-/* Idle task control block and stack */
-static StackType_t idle_task_stack[configMINIMAL_STACK_SIZE];
-static StackType_t timer_task_stack[configTIMER_TASK_STACK_DEPTH];
-
-static StaticTask_t idle_task_tcb;
-static StaticTask_t timer_task_tcb;
-
-/* External Idle and Timer task static memory allocation functions */
-extern void vApplicationGetIdleTaskMemory( StaticTask_t ** ppxIdleTaskTCBBuffer, StackType_t ** ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize );
-extern void vApplicationGetTimerTaskMemory( StaticTask_t ** ppxTimerTaskTCBBuffer, StackType_t ** ppxTimerTaskStackBuffer, uint32_t * pulTimerTaskStackSize );
-
-/*
-  vApplicationGetIdleTaskMemory gets called when configSUPPORT_STATIC_ALLOCATION
-  equals to 1 and is required for static memory allocation support.
-*/
-void vApplicationGetIdleTaskMemory( StaticTask_t ** ppxIdleTaskTCBBuffer, StackType_t ** ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize )
+void vApplicationIdleHook( void )
 {
-  *ppxIdleTaskTCBBuffer = &idle_task_tcb;
-  *ppxIdleTaskStackBuffer = &idle_task_stack[0];
-  *pulIdleTaskStackSize = (uint32_t)configMINIMAL_STACK_SIZE;
+  /* vApplicationIdleHook() will only be called if configUSE_IDLE_HOOK is set
+   to 1 in FreeRTOSConfig.h. It will be called on each iteration of the idle
+   task. It is essential that code added to this hook function never attempts
+   to block in any way (for example, call xQueueReceive() with a block time
+   specified, or call vTaskDelay()). If the application makes use of the
+   vTaskDelete() API function (as this demo application does) then it is also
+   important that vApplicationIdleHook() is permitted to return to its calling
+   function, because it is the responsibility of the idle task to clean up
+   memory allocated by the kernel to any task that has since been deleted. */
+   
+/* add user code begin vApplicationIdleHook */
+	appl.idle();
+/* add user code end vApplicationIdleHook */
 }
-/*
-  vApplicationGetTimerTaskMemory gets called when configSUPPORT_STATIC_ALLOCATION
-  equals to 1 and is required for static memory allocation support.
-*/
-void vApplicationGetTimerTaskMemory( StaticTask_t ** ppxTimerTaskTCBBuffer, StackType_t ** ppxTimerTaskStackBuffer, uint32_t * pulTimerTaskStackSize )
+
+void vApplicationTickHook( void )
 {
-  *ppxTimerTaskTCBBuffer = &timer_task_tcb;
-  *ppxTimerTaskStackBuffer = &timer_task_stack[0];
-  *pulTimerTaskStackSize = (uint32_t)configTIMER_TASK_STACK_DEPTH;
+  /* This function will be called by each tick interrupt if
+   configUSE_TICK_HOOK is set to 1 in FreeRTOSConfig.h. User code can be
+   added here, but the tick hook is called from an interrupt context, so
+   code must not attempt to block, and only the interrupt safe FreeRTOS API
+   functions can be used (those that end in FromISR()). */
+
+/* add user code begin vApplicationTickHook */
+	appl.tick();
+/* add user code end vApplicationTickHook */
 }
 
 /* add user code begin 1 */

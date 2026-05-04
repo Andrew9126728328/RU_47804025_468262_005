@@ -104,8 +104,24 @@
         <Parameters>
             <ParametersSub name="MCU_SRAM_SIZE" value="32768"/>
             <ParametersSub name="configCPU_CLOCK_HZ" value="144000000"/>
+            <ParametersSub name="configUSE_TIME_SLICING" value="0"/>
+            <ParametersSub name="configUSE_TASK_NOTIFICATIONS" value="0"/>
             <ParametersSub name="configUSE_RECURSIVE_MUTEXES" value="1"/>
+            <ParametersSub name="configUSE_COUNTING_SEMAPHORES" value="0"/>
+            <ParametersSub name="Memory_allocation" value="0"/>
+            <ParametersSub name="Memory_management_method" value="1"/>
             <ParametersSub name="TOTAL_HEAP_SIZE" value="20480"/>
+            <ParametersSub name="USE_IDLE_HOOK" value="1"/>
+            <ParametersSub name="USE_TICK_HOOK" value="1"/>
+            <ParametersSub name="configUSE_TRACE_FACILITY" value="0"/>
+            <ParametersSub name="INCLUDE_vTaskPrioritySet" value="0"/>
+            <ParametersSub name="INCLUDE_vTaskDelete" value="0"/>
+            <ParametersSub name="INCLUDE_vTaskDelayUntil" value="0"/>
+            <ParametersSub name="INCLUDE_xTaskGetSchedulerState" value="0"/>
+            <ParametersSub name="INCLUDE_uxTaskGetStackHighWaterMark" value="0"/>
+            <ParametersSub name="INCLUDE_eTaskGetState" value="0"/>
+            <ParametersSub name="INCLUDE_xTaskResumeFromISR" value="0"/>
+            <ParametersSub name="INCLUDE_xQueueGetMutexHolder" value="0"/>
         </Parameters>
         <Tasks>
             <ParametersGroup>
