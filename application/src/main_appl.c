@@ -13,15 +13,6 @@
 
 health_t health;			
 
-/* All tasks of application */
-
-extern void keyboard_task_func(void *pvParameters);
-extern void encoder_task_func(void *pvParameters);
-extern void can_rx_task_func(void *pvParameters);
-extern void can_tx_task_func(void *pvParameters);
-extern void hv_motor_task_func(void *pvParameters);
-extern void ai_measurement(void *pvParameters);
-
 static void appl_start(void);
 static void appl_daemon(void);
 static void appl_idle(void);
@@ -29,12 +20,14 @@ static void appl_tick(void);
 
 const api_t appl = 
 {
-	.start = appl_start,
-	.daemon = appl_daemon,
-	.idle = appl_idle,
-	.tick = appl_tick,
-	.can = &appl_can,
-	.ai = &appl_ai,
+	.start 		= appl_start,
+	.daemon 	= appl_daemon,
+	.idle 		= appl_idle,
+	.tick 		= appl_tick,
+	.can 			= &appl_can,
+	.ai 			= &appl_ai,
+	.kbd 			= &appl_kbd,
+	.enc			= &appl_enc,
 };
 
 static void appl_start(void)
@@ -42,13 +35,12 @@ static void appl_start(void)
 	bsp.init();
 	crm_clocks_freq_get(&health.crm_clocks_freq);		/* Read SYS frequency */
 	
-	/* Create and start all tasks */
-	xTaskCreate(keyboard_task_func, "keyboard_task",  configMINIMAL_STACK_SIZE*4,  (void*)5, 		tskIDLE_PRIORITY + 1,		NULL);
-  xTaskCreate(encoder_task_func,  "encoder_task",   configMINIMAL_STACK_SIZE*2,  (void*)5, 		tskIDLE_PRIORITY + 1,		NULL);
-  xTaskCreate(can_rx_task_func,   "can_rx_task",    configMINIMAL_STACK_SIZE*8,  (void*)500, 	tskIDLE_PRIORITY + 2,		NULL);
-  xTaskCreate(can_tx_task_func,   "can_tx_task",    configMINIMAL_STACK_SIZE*8,  (void*)1, 		tskIDLE_PRIORITY + 3,		NULL);
-  xTaskCreate(hv_motor_task_func, "hv_motor_task",  configMINIMAL_STACK_SIZE*4,  (void*)10, 	tskIDLE_PRIORITY + 1,		NULL);
-	xTaskCreate(ai_measurement, 		"ADC Thread", 		configMINIMAL_STACK_SIZE*1, 	NULL, 			tskIDLE_PRIORITY + 1,		NULL);
+	/* Create and start all applications */
+	appl.kbd->start();
+	appl.enc->start();
+	appl.can->start();
+	appl.hv_motor->start();
+	appl.ai->start();
 }
 static void appl_daemon(void)
 {

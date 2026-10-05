@@ -52,11 +52,22 @@ static SemaphoreHandle_t xSemaphoreEvent = NULL;
 
 static void keyboard_task_tx_engine(void *pvParameters);
 static void keyboard_status2message(can_message_t *message);
+static void keyboard_task_func(void *pvParameters);
+static int kbd_start(void);
+
+const appl_kbd_t appl_kbd = 
+{
+	.start = kbd_start,
+};
+static int kbd_start(void)
+{
+	return xTaskCreate(keyboard_task_func, "keyboard_task",  configMINIMAL_STACK_SIZE*4,  (void*)5, 		tskIDLE_PRIORITY + 1,		NULL);
+}
 /**
 * @brief Задача сканирования клавиатуры
 * @param[in] pvParameters принимает значение времени сканирования ряда в мс 
 */ 
-void keyboard_task_func(void *pvParameters)
+static void keyboard_task_func(void *pvParameters)
 {
 	int scan_time = (NULL != pvParameters)? (int)pvParameters: 5;
   /* Infinite loop */
@@ -167,5 +178,5 @@ static void keyboard_status2message(can_message_t *message)
     /* Put the measured voltage into the CAN message */
     uint16_t *msg_data_v24 = (uint16_t*)&message->data[6];
     *msg_data_v24 = 0x55aa;
-    //*msg_data_v24 = (uint16_t)(Adc::getVoltage() * 100.0f);
+		//*msg_data_v24 = appl_ai.read_PWRvs() * 100.0f;
 }

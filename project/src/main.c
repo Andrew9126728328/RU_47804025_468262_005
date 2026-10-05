@@ -130,7 +130,8 @@ int main(void)
   wk_freertos_init();
 
   /* add user code begin 2 */
-
+	/* Example debug: */
+	ITM_SendChar ('R');
   /* add user code end 2 */
 
   while(1)

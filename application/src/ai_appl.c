@@ -11,22 +11,29 @@
 #include "main_appl.h"
 #include "bsp.h"
 
+static int ai_start(void);
 static float ai_v24;
 static float ai_v3v3;
 static float ai_vref;
 static float ai_temperature;	
-uint16_t adc_raw[AI_TOTAL_CHANNELS]; 
-	
-static float appl_read_PWRvs(void){ return ai_v24;};		
-static float appl_read_v3v3(void){ return ai_v3v3;};		
-static float appl_read_temperature(void){ return ai_temperature;};	
+uint16_t adc_raw[AI_TOTAL_CHANNELS];
+
+static void ai_measurement(void *pvParameters);	
+static float appl_read_PWRvs(void){ return ai_v24;}		
+static float appl_read_v3v3(void){ return ai_v3v3;}		
+static float appl_read_temperature(void){ return ai_temperature;}	
 const appl_ai_t appl_ai =
 {
+	.start = ai_start,
 	.read_PWRvs = appl_read_PWRvs,
 	.read_v3v3 = appl_read_v3v3,
 	.read_temperature = appl_read_temperature,
 };
-void ai_measurement(void *pvParameters)
+static int ai_start(void)
+{
+	return xTaskCreate(ai_measurement, 		"ADC Thread", 		configMINIMAL_STACK_SIZE*1, 	NULL, 			tskIDLE_PRIORITY + 1,		NULL);
+}
+static void ai_measurement(void *pvParameters)
 {
 	ai_v24 = 0.0f;
 	ai_v3v3 = 0.0f;

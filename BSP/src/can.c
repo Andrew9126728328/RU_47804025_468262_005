@@ -35,7 +35,7 @@ static int can_send(can_message_t *message)
 {
 	int ret = pdFALSE;
 	can_tx_message_type ll_can_tx_message;
-	if((message->length >= 0) && (message->length <= 8))
+	if(message->length <= 8)
 	{
 			ll_can_tx_message.dlc = message->length;
 			ll_can_tx_message.frame_type = CAN_TFT_DATA;

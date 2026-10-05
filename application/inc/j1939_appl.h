@@ -15,7 +15,7 @@ enum
 		J1939_PRIORITY_5 = 5U,    /**< CAN j1939 message priority 5 */
 		J1939_PRIORITY_6 = 6U,    /**< CAN j1939 message priority 6 */
 		J1939_PRIORITY_7 = 7U,     /**< CAN j1939 message priority 7 */
-		J1939_PRIO_MASK = 0xFC000000,
+		J1939_PRIO_MASK = 0xFC000000U,
 };
 
 typedef struct j1939_s

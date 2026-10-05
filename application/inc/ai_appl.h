@@ -12,6 +12,7 @@ enum
 	
 typedef struct appl_ai_s
 {
+	int (*start)(void);
 	float (*read_PWRvs)(void);
 	float (*read_v3v3)(void);
 	float (*read_temperature)(void);

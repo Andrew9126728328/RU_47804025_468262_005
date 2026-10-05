@@ -5,6 +5,9 @@
 #include "signature.h"
 #include "can_appl.h"
 #include "ai_appl.h"
+#include "kbd_appl.h"
+#include "enc_appl.h"
+#include "hv_motor_appl.h"
 
 #define STATISTIC_PERIOD			(100U)
 #define J1939_ADDRESS					(207U)
@@ -31,6 +34,9 @@ typedef struct api_s
 	void (*tick)(void);
 	const appl_can_t *can;
 	const appl_ai_t *ai;
+	const appl_kbd_t *kbd;
+	const appl_enc_t *enc;
+	const appl_hv_motor_t *hv_motor;
 }api_t;
 extern const api_t appl;
 

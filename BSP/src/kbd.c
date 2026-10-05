@@ -20,7 +20,8 @@ struct row_ctrl_s
 {
     gpio_type *port;
     uint16_t   pin;
-}static const row_ctrl[ROW_TOTAL] =
+};
+static const struct row_ctrl_s row_ctrl[ROW_TOTAL] =
 {
 #define key_row_xmacro(_ndx, _port, _pin) { .port=_port, .pin=_pin},
 	KEY_ROW_XLIST(key_row_xmacro)
@@ -31,7 +32,8 @@ struct col_ctrl_s
 {
     gpio_type *port;
     uint16_t   pin;
-}static const col_ctrl[COL_TOTAL] =
+};
+static const struct col_ctrl_s col_ctrl[COL_TOTAL] =
 {
 #define key_column_xmacro(_ndx, _port, _pin) { .port=_port, .pin=_pin},
 	KEY_COL_XLIST(key_column_xmacro)

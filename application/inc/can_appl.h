@@ -12,6 +12,7 @@ typedef struct appl_can_s
 	int (*send)(can_message_t *message);
 	const j1939_t *j1939;
 	const failure_pgn_65408_t *failure_pgn_65408;
+	int (*start)(void);
 }appl_can_t;
 
 extern const appl_can_t appl_can;
