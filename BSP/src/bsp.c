@@ -7,6 +7,7 @@
 * Только на этом уровне подключаются и используются библиотеки производителя микроконтроллера.
 */
 #include "bsp.h"
+#include "main_appl.h"
 
 #include "FreeRTOS.h"
 #include "task.h"
@@ -37,5 +38,10 @@ static int bsp_init(void)
 			bsp.leds->init();
 		if(bsp.drv_2605->init) 
 			bsp.drv_2605->init();
+		{
+		  crm_clocks_freq_type crm_clocks_freq;
+	    crm_clocks_freq_get(&crm_clocks_freq);		/* Read SYS frequency */
+	    health.sclk_freq = crm_clocks_freq.sclk_freq;
+		}
     return ret;
 }          

@@ -7,8 +7,7 @@
 * Только на этом уровне подключаются и используются библиотеки производителя микроконтроллера.
 */
 #include <string.h>
-#include "leds.h"
-#include "at32f415_wk_config.h"
+#include "bsp.h"
 #include "i2c_application.h"
 
 #include "FreeRTOS.h"

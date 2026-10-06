@@ -6,7 +6,7 @@
 *@details В данном файле содержатся все необходимые includ, и реализация CAN BSP.\n
 * Только на этом уровне подключаются и используются библиотеки производителя микроконтроллера.
 */
-#include "can.h"
+#include "bsp.h"
 
 #include "FreeRTOS.h"
 #include "task.h"
@@ -15,7 +15,7 @@
 #include "timers.h"
 
 static int can_send(can_message_t *message);
-static int can_receive(can_rx_fifo_num_type fifo_number, can_message_t *message);
+static int can_receive(int fifo_number, can_message_t *message);
 
 /*******************************************************************************/
 /**
@@ -67,11 +67,11 @@ static int can_send(can_message_t *message)
 * @param[in] message принимает указатель на буффер для принятого сообщения 
 * @param[out] ret возвращает код ошибки
 */  
-static int can_receive(can_rx_fifo_num_type fifo_number, can_message_t *message)
+static int can_receive(int fifo_number, can_message_t *message)
 {
 	int ret = pdFALSE;
 	can_rx_message_type ll_can_rx_message;
-	can_message_receive(CAN1, fifo_number, &ll_can_rx_message);
+	can_message_receive(CAN1, (can_rx_fifo_num_type)fifo_number, &ll_can_rx_message);
 	if(CAN_TFT_DATA == ll_can_rx_message.frame_type)
 	{
 

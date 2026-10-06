@@ -33,7 +33,6 @@ const api_t appl =
 static void appl_start(void)
 {
 	bsp.init();
-	crm_clocks_freq_get(&health.crm_clocks_freq);		/* Read SYS frequency */
 	
 	/* Create and start all applications */
 	appl.kbd->start();

@@ -1,10 +1,6 @@
 #ifndef __LEDS_H__
 #define __LEDS_H__
 
-#include <stdint.h>
-
-#include "at32f415.h"  
-
 enum
 {
 	LED_1,

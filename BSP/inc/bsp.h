@@ -1,5 +1,8 @@
 #ifndef __BSP_H__
 #define __BSP_H__
+
+#include "at32f415_wk_config.h"
+
 #include "can.h"
 #include "kbd.h"
 #include "leds.h"

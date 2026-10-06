@@ -1,8 +1,7 @@
 #ifndef __DRV_2605_H__
 #define __DRV_2605_H__
-#include <stdint.h>
 
-#include "at32f415.h" 
+#include <stdint.h> 
 
 /**************************************************************************/
 /*!

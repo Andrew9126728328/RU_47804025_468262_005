@@ -7,6 +7,14 @@
 * Только на этом уровне подключаются и используются библиотеки производителя микроконтроллера.
 */
 
+#include "bsp.h"
+
+#include "FreeRTOS.h"
+#include "task.h"
+#include "semphr.h"
+#include "queue.h"
+#include "timers.h"
+
 #define R21  (20000.0f)
 #define R22  (2000.0f)
 #define REF_INT	(1.2f)
@@ -16,13 +24,6 @@
 static void adc_start(void);
 static void adc_calibrate(void);
 
-#include "adc.h"
-
-#include "FreeRTOS.h"
-#include "task.h"
-#include "semphr.h"
-#include "queue.h"
-#include "timers.h"
 /*******************************************************************************/
 /**
 * @brief Экземпляр объекта управления ADC1 AT32F415

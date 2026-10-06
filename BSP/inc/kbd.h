@@ -1,11 +1,6 @@
 #ifndef __KBD_H__
 #define __KBD_H__
 
-#include <stdint.h>
-#include <stddef.h>
-
-#include "at32f415.h" 
-
 /***************************************************************************************
  * X macros for creating a list of KEY controls
  *

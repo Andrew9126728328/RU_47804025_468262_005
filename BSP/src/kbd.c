@@ -6,8 +6,7 @@
 *@details В данном файле содержатся все необходимые includ, и реализация объекта kbd BSP.\n
 * Только на этом уровне подключаются и используются библиотеки производителя микроконтроллера.
 */
-#include "kbd.h"
-#include "at32f415_wk_config.h"
+#include "bsp.h"
 
 #include "FreeRTOS.h"
 #include "task.h"

@@ -6,8 +6,7 @@
 *@details В данном файле содержатся все необходимые includ, и реализация объекта drv_2605 BSP.\n
 * Только на этом уровне подключаются и используются библиотеки производителя микроконтроллера.
 */
-#include "drv_2605.h"
-#include "at32f415_wk_config.h"
+#include "bsp.h"
 #include "i2c_application.h"
 
 #include "FreeRTOS.h"

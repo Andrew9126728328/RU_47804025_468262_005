@@ -16,7 +16,6 @@
 #include "queue.h"
 #include "timers.h"
 #include "event_groups.h"
-#include "wk_system.h"
 
 /* private includes -------------------------------------------------------------*/
 /* add user code begin private includes */

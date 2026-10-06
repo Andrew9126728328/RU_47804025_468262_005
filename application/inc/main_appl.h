@@ -16,7 +16,7 @@
 
 typedef struct health_s
 {
-    crm_clocks_freq_type crm_clocks_freq;
+    uint32_t 						 sclk_freq; 
     uint32_t             tasks;
     uint32_t             heap;
     uint32_t             load;
